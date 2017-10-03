@@ -7,13 +7,14 @@ const postSchema = new Schema({
   title: {type: String, required: true},
   link: String,
   text: String,
-  date: Date, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
+  timeSpace: Date, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
+  
   isDeleted: { type: Boolean, default: false},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
+  scope: { type: String, required: true },
   _creator: { type: Schema.ObjectId, ref: 'User'},
   _comments: [{ type: Schema.ObjectId, ref: 'Comment'}],
-  _scope: {type: Schema.ObjectId, ref: 'Scope', required: true }
 })
 
 postSchema.pre('save', function(next){

@@ -9,7 +9,7 @@ postController.create = (req, res) => {
     text,
     link,
     userId, // will be JWT
-    scopeId,
+    scope,
    } = req.body
 
   // Validation for either text or link NOT both
@@ -19,7 +19,7 @@ postController.create = (req, res) => {
     text,
     link,
     date,
-    _scope: scopeId,
+    scope,
     _creator: userId,
   })
 
@@ -54,6 +54,20 @@ postController.getAll = (req, res) => {
       message: err
     })
   })
+}
+
+postController.getAllInScope = (req, res) => {
+  const scope = req.params.scope
+  
+  console.log(scope)
+  db.Post.find({ scope  })
+    .then((posts) => {
+      res.status(200).json({
+        success: true,
+        data: posts
+      })
+    })
+    .catch((err) => { res.status(500).json({ message: err })})
 }
 
 // SHOW POST
