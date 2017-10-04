@@ -9,13 +9,14 @@ mongoose.Promise = global.Promise
 const userSchema = new Schema({
   username: {
     type: String,
-    required: true,
+    unique: true,
     minlength: [5, 'Username must be 5 characters or more.']
   },
   password: {
     type: String,
     required: true,
     select: false,
+    minlength: [5, 'Username must be 5 characters or more.']
   },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },

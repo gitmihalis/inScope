@@ -4,7 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --timeout 10000",
     "start": "nodemon bin/dev",
     "clean": "rm -rf dist",
     "build": "npm run clean && mkdir dist && babel server -s -d dist",
@@ -17,11 +16,10 @@
     "babel-register": "^6.26.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^4.0.0",
     "express": "^4.16.1",
-    "mocha": "^4.0.0",
+    "jsonwebtoken": "^8.0.1",
     "mongoose": "^4.11.13",
     "nodemon": "^1.12.1"
   }

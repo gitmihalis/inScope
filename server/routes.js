@@ -2,7 +2,7 @@ import express from 'express'
 
 // CONTROLLERS
 import basicController from './controllers/basicController'
-import userController from './controllers/userController'
+import authController from './controllers/authController'
 import postController from './controllers/postController'
 import commentController from './controllers/commentController'
 import scopeController from './controllers/scopeController'
@@ -13,7 +13,7 @@ const routes = express()
 routes.get('/', basicController.get)
 
 // USER ROUTES
-routes.post('/signup', userController.create)
+routes.post('/sign-up', authController.create)
 
 // POST ROUTES
 routes.post('/post', postController.create)
