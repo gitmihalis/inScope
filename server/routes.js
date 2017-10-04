@@ -12,8 +12,10 @@ const routes = express()
 // BASIC ROUTES
 routes.get('/', basicController.get)
 
-// USER ROUTES
+// USER AUTH ROUTES
 routes.post('/sign-up', authController.create)
+routes.get('/logout', authController.logout)
+routes.post('/login', authController.login)
 
 // POST ROUTES
 routes.post('/post', postController.create)

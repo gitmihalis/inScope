@@ -5,6 +5,10 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import routes from './routes'
+import jsonwebtoken from 'jsonwebtoken'
+
+const app = express()
+
 
 // Connect to DATABASE
 mongoose.connect(
@@ -18,12 +22,29 @@ mongoose.connect(
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
-const app = express()
 
-// CONNECT TO MIDDLEWARE
+// Define Custom middleware
+const checkAuth = (req, res, next) => {
+  console.log('Checking for authentication')
+
+  if (typeof req.cookies.sToken === 'undefined' || req.cookies.nToken === null){
+    req.user = null
+  } else {
+    const token = req.cookies.sToken
+    const decodedToken = jsonwebtoken.decode(token, { complete: true }) || {}
+    req.user = decodedToken.payload
+  }
+
+  next()
+}
+// CONNECT TO MIDDLEWARE *order matters!
 app.use(bodyParser.json())
 app.use(cookieParser())
+
+app.use(checkAuth)
+
 app.use('/api', routes)
+
 
 
 
