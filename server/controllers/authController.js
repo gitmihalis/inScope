@@ -13,8 +13,8 @@ authController.create = (req, res) => {
     password
   })
   
-  user.save().then((newUser) => {
-    const token = jwt.sign({id: newUser._id}, process.env.SECRET, {expiresIn: '60 days'})
+  user.save().then((newUser) => { //XXX
+    const token = jwt.sign({ _id: newUser._id}, process.env.SECRET, {expiresIn: '60 days'})
     
     res.status(200)
       .cookie('sToken', token, { maxAge: 900000, httpOnly: true})
@@ -42,8 +42,8 @@ authController.login = (req, res, next) => {
         if (!isMatch) {
           return res.status(401).json({ message: "Invalid credentials"})
         }
-
-        const token = jwt.sign({id: existingUser._id}, process.env.SECRET, {expiresIn: '60 days'})
+        // XXX
+        const token = jwt.sign({ _id: existingUser._id}, process.env.SECRET, {expiresIn: '60 days'})
 
         return res.cookie('sToken', token, { maxAge: 900000, httpOnly: true })
           .status(200)

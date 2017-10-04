@@ -5,7 +5,7 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import routes from './routes'
-import jsonwebtoken from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 const app = express()
 
@@ -31,7 +31,7 @@ const checkAuth = (req, res, next) => {
     req.user = null
   } else {
     const token = req.cookies.sToken
-    const decodedToken = jsonwebtoken.decode(token, { complete: true }) || {}
+    const decodedToken = jwt.decode(token, { complete: true }) || {}
     req.user = decodedToken.payload
   }
 

@@ -7,37 +7,41 @@ const commentController = {}
 commentController.create = (req, res) => {
   const { 
     text,
-    userId,
     postId,
   } = req.body
 
-  // Validation
+  db.User.findById(req.user._id)
 
-  const comment = new db.Comment({
-    text,
-    _creator: userId,
-    _post: postId,
-  })
+    .then((existingUser) => {
 
-  comment.save().then((newComment) => {
-    db.Post.findByIdAndUpdate(
-      postId,
-      { $push: { '_comments': newComment._id }}
-    ).then( () => {
-      res.status(200).json({
-        success: true,
-        data: newComment,
+      const comment = new db.Comment({
+        text,
+        _creator: existingUser._id,
+        _post: postId,
       })
-    }).catch((err) => {
-      res.status(500).json({
-        message: err
+
+      comment.save().then((newComment) => {
+        db.Post.findByIdAndUpdate(
+          postId,
+          { $push: { '_comments': newComment._id }})
+            .then( () => {
+              return res.status(200).json({
+                success: true,
+                data: newComment,
+              })
+            })
+            .catch((err) => {
+              return res.status(500).json({
+                message: err
+              })
+            })
+      }).catch((err) => {
+        return res.status(500).json({
+          message: err
+        })
       })
     })
-  }).catch((err) => {
-    res.status(500).json({
-      message: err
-    })
-  })
+    .catch( (err) => { return res.status(400).json({ message: err })})
 }
 
 export default commentController
