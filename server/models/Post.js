@@ -8,7 +8,6 @@ const postSchema = new Schema({
   link: String,
   text: String,
   dateStamp: Date, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
-  voteScore: { type: Number, default: 0 },
   isDeleted: { type: Boolean, default: false},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
@@ -27,6 +26,7 @@ postSchema.pre('save', function(next){
     this.createdAt = now
   }
 
+  
   // set voteScore
 
   next()
