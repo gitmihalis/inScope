@@ -7,12 +7,14 @@ const postSchema = new Schema({
   title: {type: String, required: true},
   link: String,
   text: String,
-  timeSpace: Date, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
-  
+  dateStamp: Date, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
+  voteScore: { type: Number, default: 0 },
   isDeleted: { type: Boolean, default: false},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   scope: { type: String, required: true },
+  _upVoters: [{ type: Schema.ObjectId, ref: 'User' }],
+  _downVoters: [{ type: Schema.ObjectId, ref: 'User' }],
   _creator: { type: Schema.ObjectId, ref: 'User'},
   _comments: [{ type: Schema.ObjectId, ref: 'Comment'}],
 })
@@ -24,6 +26,8 @@ postSchema.pre('save', function(next){
   if ( !this.createdAt ){
     this.createdAt = now
   }
+
+  // set voteScore
 
   next()
 })

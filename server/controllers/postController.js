@@ -2,6 +2,42 @@ import db from './../models' // defaults to index.js
 
 const postController = {}
 
+postController.upVote = (req, res) => {
+  const postId = req.params.postId
+
+  db.User.findById(req.user._id).then((existingUser) => {
+    db.Post.findByIdAndUpdate( postId, {
+      $addToSet: { '_upVoters': existingUser._id }  
+    }).then((existingPost) => {
+        return res.status(200).json({
+          success: true,
+          data: existingPost
+        })
+      // handle duplicate vote 
+      })
+      .catch((err) => res.status(409).json({ message: err }))
+    })
+    .catch((err) => res.status(402).json({ message: err }))
+  .catch((err) => res.status(500).json({ message: err }))
+}
+
+postController.downVote = (req, res) => {
+  const postId = req.params.postId
+
+  db.User.findById(req.user._id).then((existingUser) => {
+     db.Post.findByIdAndUpdate(postId, {
+      $addToSet: { '_downVoters': existingUser._id } 
+    }).then((existingPost) => {
+        return res.status(200).json({
+          success: true,
+          data: existingPost
+        })
+      // handle duplicate vote
+      }).catch(err => res.status(409).json({ message: err }))     
+    }).catch((err) =>  res.status(500).json({ message: err }))
+  .catch((err) => res.status(500).json({ message: err }))
+}
+
 postController.create = (req, res) => {
   const {
     date, 

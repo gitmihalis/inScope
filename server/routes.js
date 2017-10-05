@@ -21,14 +21,20 @@ routes.post('/login', authController.login)
 // POST ROUTES
 routes.post('/post', postController.create)
 routes.get('/posts', postController.getAll)
-routes.get('/posts/:id', postController.getOne)
+routes.get('/posts/:postId', postController.getOne)
+
+routes.get('/posts/:postId/up', postController.upVote)
+routes.get('/posts/:postId/down', postController.downVote)
+
 
 routes.get('/s/:scope', postController.getAllInScope)
+
 
 // COMMENT ROUTES
 routes.post('/comment', commentController.create)
 
 // REPLIES
 routes.post('/reply', replyController.create)
+
 
 export default routes
