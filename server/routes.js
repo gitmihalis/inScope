@@ -6,6 +6,7 @@ import authController from './controllers/authController'
 import postController from './controllers/postController'
 import commentController from './controllers/commentController'
 import scopeController from './controllers/scopeController'
+import replyController from './controllers/replyController'
 
 const routes = express()
 
@@ -27,5 +28,7 @@ routes.get('/s/:scope', postController.getAllInScope)
 // COMMENT ROUTES
 routes.post('/comment', commentController.create)
 
+// REPLIES
+routes.post('/reply', replyController.create)
 
 export default routes

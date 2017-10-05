@@ -9,6 +9,7 @@ const commentSchema = new Schema({
   isDeleted: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now },
   _creator: { type: Schema.ObjectId, ref: 'User', required: true },
+  _replies: [{ type: Schema.ObjectId, ref: 'Comment'}],
   // top level comments refer to a post
   _post: {type: Schema.ObjectId, ref: 'Post'},
 })
