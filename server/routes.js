@@ -27,6 +27,9 @@ routes.get('/posts/:postId/up', postController.upVote)
 routes.get('/posts/:postId/down', postController.downVote)
 
 
+// SCOPES 
+routes.post('/in', scopeController.create)
+routes.get('/in', scopeController.getAll)
 routes.get('/s/:scope', postController.getAllInScope)
 
 

@@ -19,8 +19,7 @@ mongoose.connect(
   }, () => {
   console.log('connected to mongodb')
 })
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+.catch(err => console.log(err))
 
 
 // Define Custom middleware

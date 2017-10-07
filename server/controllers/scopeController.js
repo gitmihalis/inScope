@@ -1,52 +1,48 @@
 import db from './../models' // defaults to index.js
 
-
-
 const scopeController = {}
-
 
 // CREATE
 scopeController.create = (req, res) => {
-  const { 
-    slug,
-    title,
-    description,
-    beginning,
-    ending,
-    userId, 
-  } = req.body
+  const userId = req.user._id
 
+  db.User.findById(userId).then((existingUser) => {
 
-  const scope = new db.Scope({
-    slug,
-    title,
-    description,
-    beginningAt: new Date(beginning),
-    endingAt: ending ? new Date(ending) : null,
-    userId: userId
-  })
+    const { 
+      slug,
+      description,
+      beginning,
+      ending,
+    } = req.body
 
-  // save the scope to db
-  scope.save().then((newScope) => {
-    // push the creator to the moderators array
-    db.Scope.findByIdAndUpdate(
-      newScope._id,
-      { $push: { '_moderators': userId }}
-    ).then((existingScope) => {
-      res.json({
-        success: true,
-        data: existingScope,
+    const scope = new db.Scope({
+      slug,
+      description,
+      userId,
+      beginningAt: new Date(beginning),
+      endingAt: ending ? new Date(ending) : null,
+    })
+
+    // save the scope to db
+    scope.save().then((newScope) => {
+      // push the creator to the moderators array
+      db.Scope.findByIdAndUpdate(
+        newScope._id,
+        { $push: { '_moderators': userId }}
+      ).then((existingScope) => {
+        res.json({
+          success: true,
+          data: existingScope,
+        })
+      }).catch((err) => {
+        res.json({ message: err })
       })
-    }).catch((err) => {
+    }).catch((err) => { 
       res.json({ message: err })
     })
-  }).catch((err) => { 
-    res.json({ message: err })
-  })
+  }).catch(err => res.status(402).json({ message: err }))
 }
-
 // INDEX
-
 scopeController.getAll = (req, res) => {
   // 
   db.Scope.find({})

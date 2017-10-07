@@ -11,9 +11,8 @@ const postSchema = new Schema({
   isDeleted: { type: Boolean, default: false},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
-  scope: { type: String, required: true },
-  _upVoters: [{ type: Schema.ObjectId, ref: 'User' }],
-  _downVoters: [{ type: Schema.ObjectId, ref: 'User' }],
+  voters: Schema.Types.Mixed, // { user: username, amount: 1 }
+  _scope: { type: Schema.ObjectId, ref: 'Scope' },
   _creator: { type: Schema.ObjectId, ref: 'User'},
   _comments: [{ type: Schema.ObjectId, ref: 'Comment'}],
 })
@@ -25,8 +24,6 @@ postSchema.pre('save', function(next){
   if ( !this.createdAt ){
     this.createdAt = now
   }
-
-  
   // set voteScore
 
   next()
