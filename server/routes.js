@@ -30,7 +30,7 @@ routes.get('/posts/:postId/down', postController.downVote)
 // SCOPES 
 routes.post('/in', scopeController.create)
 routes.get('/in', scopeController.getAll)
-routes.get('/s/:scope', postController.getAllInScope)
+routes.get('/in/:slug', scopeController.getOne)
 
 
 // COMMENT ROUTES

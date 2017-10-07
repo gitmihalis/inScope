@@ -47,15 +47,14 @@ postController.create = (req, res) => {
     scope,
    } = req.body
 
-  db.User.findById(req.user._id)
-    .then((existingUser) => {
+  db.User.findById(req.user._id).then((existingUser) => {
 
       const post = new db.Post({
         title,
         text,
         link,
         date,
-        scope,
+        _scope: scope,
         _creator: existingUser._id,
       })
 
@@ -65,13 +64,8 @@ postController.create = (req, res) => {
           success: true,
         })
       })
-      .catch((err) => {
-        res.status(500).json({
-          message: err
-        })
-      })
-  })
-  .catch(err => res.status(401).json({ message: err }))
+      .catch(err => res.status(500).json({ message: err }))
+  }).catch(err => res.status(401).json({ message: err }))
 }
 
 

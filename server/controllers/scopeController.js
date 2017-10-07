@@ -62,16 +62,21 @@ scopeController.getAll = (req, res) => {
 // SHOW
 
 scopeController.getOne = (req, res) => {
-  const slug = req.params.slug
-  db.Scope.findOne({ slug })
-    .then((existingScope) => {
-      res.status(200).json({
-        success: true,
-        data: existingScope
-      })
-    })
-    .catch((err) => res.status(500).json({message: err}))
-}
 
+  db.Scope.findOne({ 
+    slug: req.params.slug 
+  }).select('_id').then((existingScope) => {
+    // find the posts in that scope
+    db.Post.find({
+      _scope: existingScope._id
+    }).then((existingPosts) => {
+      console.log(existingPosts)
+      return res.status(200).json({
+        success: true,
+        data: existingPosts
+      })
+    }).catch(err => res.status(400).json({ message: err }))
+  }).catch(err => res.status(400).json({ message: err }))
+}
 
 export default scopeController

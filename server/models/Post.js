@@ -12,7 +12,7 @@ const postSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   voters: Schema.Types.Mixed, // { user: username, amount: 1 }
-  _scope: { type: Schema.ObjectId, ref: 'Scope' },
+  _scope: { type: Schema.ObjectId, ref: 'Scope', required: true },
   _creator: { type: Schema.ObjectId, ref: 'User'},
   _comments: [{ type: Schema.ObjectId, ref: 'Comment'}],
 })
