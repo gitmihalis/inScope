@@ -39,7 +39,11 @@ const checkAuth = (req, res, next) => {
 // CONNECT TO MIDDLEWARE *order matters!
 app.use(bodyParser.json())
 app.use(cookieParser())
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(checkAuth)
 
 app.use('/api', routes)
