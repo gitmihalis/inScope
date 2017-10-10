@@ -7,7 +7,7 @@ const postSchema = new Schema({
   title: {type: String, required: true},
   link: String,
   text: String,
-  dateStamp: Date, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
+  occurringAt: {type: Date, required: true }, // IF IS A LINK + DATE NOT SET, GRAB THE DATE FROM THE LINK?
   isDeleted: { type: Boolean, default: false},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },

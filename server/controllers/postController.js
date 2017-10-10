@@ -40,10 +40,10 @@ postController.downVote = (req, res) => {
 
 postController.create = (req, res) => {
   const {
-    date, 
     title,
     text,
     link,
+    occurringAt,
     scope,
    } = req.body
 
@@ -53,7 +53,7 @@ postController.create = (req, res) => {
         title,
         text,
         link,
-        date,
+        occurringAt,
         _scope: scope,
         _creator: existingUser._id,
       })

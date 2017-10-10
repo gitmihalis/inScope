@@ -69,6 +69,8 @@ scopeController.getOne = (req, res) => {
     // find the posts in that scope
     db.Post.find({
       _scope: existingScope._id
+    }).sort({
+      occurringAt: -1
     }).then((existingPosts) => {
       console.log(existingPosts)
       return res.status(200).json({

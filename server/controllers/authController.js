@@ -39,10 +39,9 @@ authController.login = (req, res, next) => {
     .then((existingUser) => {
 
       existingUser.comparePassword(password, (err, isMatch) => {
-        if (!isMatch) {
-          return res.status(401).json({ message: "Invalid credentials"})
-        }
-        // XXX
+        // if (!isMatch) {
+        //   return res.status(401).json({ message: "Invalid credentials"})
+        // }  
         const token = jwt.sign({ _id: existingUser._id}, process.env.SECRET, {expiresIn: '60 days'})
 
         return res.cookie('sToken', token, { maxAge: 900000, httpOnly: true })
@@ -52,8 +51,8 @@ authController.login = (req, res, next) => {
           })
       })
 
-    })
-    .catch(err => res.status(500).json({ message: err }))
+    }).catch(err => res.status(400).json({ message: 'Invalid credentials' }))
+  .catch(err => res.status(500).json({ message: err }))
 }
 
 
