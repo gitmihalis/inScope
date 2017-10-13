@@ -87,9 +87,10 @@ postController.getAll = (req, res) => {
 
 postController.getAllInScope = (req, res) => {
   const scope = req.params.scope
-  
-  db.Post.find({ scope  })
-    .then((posts) => {
+  db.Post.find({ scope  }).populate({
+    path: '_creator',
+    select: 'username'
+  }).then((posts) => {
       res.status(200).json({
         success: true,
         data: posts

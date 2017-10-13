@@ -71,6 +71,9 @@ scopeController.getOne = (req, res) => {
       _scope: existingScope._id
     }).sort({
       occurringAt: -1
+    }).populate({
+      path: '_creator',
+      select: 'username -_id'
     }).then((existingPosts) => {
       console.log(existingPosts)
       return res.status(200).json({
